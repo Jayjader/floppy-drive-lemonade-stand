@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=2 format=3 uid="uid://b8yb1atlaq3qa"]
+
+[ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
 
 [node name="PanelContainer" type="PanelContainer"]
 anchors_preset = 15
@@ -9,7 +11,7 @@ grow_vertical = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 layout_mode = 2
-split_offset = 495
+split_offset = 590
 
 [node name="main content" type="VSplitContainer" parent="HSplitContainer"]
 layout_mode = 2
@@ -17,24 +19,24 @@ split_offset = 245
 
 [node name="floppies and files" type="HSplitContainer" parent="HSplitContainer/main content"]
 layout_mode = 2
-split_offset = 340
+split_offset = 420
 
-[node name="file loader" type="HSplitContainer" parent="HSplitContainer/main content/floppies and files"]
+[node name="floppy writer" type="HSplitContainer" parent="HSplitContainer/main content/floppies and files"]
 layout_mode = 2
-split_offset = 165
+split_offset = 215
 
-[node name="local files" type="PanelContainer" parent="HSplitContainer/main content/floppies and files/file loader"]
+[node name="local files" type="PanelContainer" parent="HSplitContainer/main content/floppies and files/floppy writer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/file loader/local files"]
+[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/floppy writer/local files"]
 layout_mode = 2
 text = "Local Files"
 horizontal_alignment = 1
 
-[node name="floppy loadout" type="PanelContainer" parent="HSplitContainer/main content/floppies and files/file loader"]
+[node name="floppy loadout" type="PanelContainer" parent="HSplitContainer/main content/floppies and files/floppy writer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/file loader/floppy loadout"]
+[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout"]
 layout_mode = 2
 text = "Floppy Loadout"
 horizontal_alignment = 1
@@ -42,14 +44,56 @@ horizontal_alignment = 1
 [node name="stock" type="PanelContainer" parent="HSplitContainer/main content/floppies and files"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/stock"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/main content/floppies and files/stock"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
 text = "Stock"
 horizontal_alignment = 1
 
+[node name="TabContainer" type="TabContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Blank" type="VBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="count" type="HBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="blank floppy" type="TextureRect" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count"]
+layout_mode = 2
+texture = ExtResource("1_bimid")
+
+[node name="blank count" type="Label" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count"]
+layout_mode = 2
+text = "x 332"
+
+[node name="get more" type="HBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="go to store" type="Button" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more"]
+layout_mode = 2
+text = "Go to store"
+
+[node name="order online" type="Button" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more"]
+layout_mode = 2
+text = "Order online"
+
+[node name="Written" type="VBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
 [node name="internet" type="HSplitContainer" parent="HSplitContainer/main content"]
 layout_mode = 2
-split_offset = 260
+split_offset = 300
 
 [node name="download queue" type="PanelContainer" parent="HSplitContainer/main content/internet"]
 layout_mode = 2
