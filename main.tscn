@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=15 format=3 uid="uid://b8yb1atlaq3qa"]
 
 [ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
 [ext_resource type="Script" path="res://funds_money_count.gd" id="1_ionjp"]
 [ext_resource type="Script" path="res://file_tree.gd" id="1_obaa5"]
 [ext_resource type="Texture2D" uid="uid://bli0a82l0d6l4" path="res://delete.png" id="2_1m7md"]
 [ext_resource type="Script" path="res://blank_floppy_count.gd" id="2_wvw6u"]
+[ext_resource type="Script" path="res://loadout_tree.gd" id="3_2wu5d"]
+[ext_resource type="Texture2D" uid="uid://c1qgupc6v07tc" path="res://write.png" id="3_f4dca"]
 [ext_resource type="Script" path="res://written_floppy_stock.gd" id="3_nd2e6"]
 [ext_resource type="Script" path="res://floppy_to_erase_count.gd" id="4_eg2ox"]
 [ext_resource type="Script" path="res://erase_written_floppies.gd" id="5_gt1ln"]
@@ -77,11 +79,43 @@ text = "Add to Loadout"
 [node name="floppy loadout" type="PanelContainer" parent="HSplitContainer/main content/floppies and files/floppy writer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout"]
 layout_mode = 2
-text = "Floppy Loadout
-Preview"
+
+[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer"]
+layout_mode = 2
+text = "Loadout Preview"
 horizontal_alignment = 1
+
+[node name="loadout tree" type="Tree" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer" node_paths=PackedStringArray("write_button", "write_input")]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+script = ExtResource("3_2wu5d")
+write_button = NodePath("../buttons/Write")
+write_input = NodePath("../buttons/write amount")
+
+[node name="buttons" type="HBoxContainer" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer"]
+layout_mode = 2
+
+[node name="Delete" type="Button" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons"]
+layout_mode = 2
+disabled = true
+text = "Delete"
+icon = ExtResource("2_1m7md")
+
+[node name="Write" type="Button" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons"]
+layout_mode = 2
+disabled = true
+text = "Write"
+icon = ExtResource("3_f4dca")
+
+[node name="write amount" type="SpinBox" parent="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons"]
+layout_mode = 2
+editable = false
 
 [node name="stock" type="PanelContainer" parent="HSplitContainer/main content/floppies and files"]
 layout_mode = 2
@@ -286,12 +320,17 @@ script = ExtResource("7_r1ef6")
 layout_mode = 2
 text = "Leave"
 
+[connection signal="file_added_to_loadout" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" method="__on_file_added"]
 [connection signal="item_selected" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/buttons/Delete" method="set_disabled" binds= [false]]
 [connection signal="item_selected" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/buttons/Add to loadout" method="set_disabled" binds= [false]]
 [connection signal="nothing_selected" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" method="deselect_all"]
 [connection signal="nothing_selected" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/buttons/Delete" method="set_disabled" binds= [true]]
 [connection signal="nothing_selected" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/buttons/Add to loadout" method="set_disabled" binds= [true]]
 [connection signal="pressed" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/buttons/Delete" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" method="__on_delete_pressed"]
+[connection signal="pressed" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/buttons/Add to loadout" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" method="__on_add_to_loadout_pressed"]
+[connection signal="item_selected" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Delete" method="set_disabled" binds= [false]]
+[connection signal="nothing_selected" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Delete" method="set_disabled" binds= [true]]
+[connection signal="pressed" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Delete" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" method="__on_delete_pressed"]
 [connection signal="pressed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more/goto store" to="Brick and Mortar Computing Store" method="show"]
 [connection signal="written_count_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/count/written count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" method="__on_written_count_changed"]
 [connection signal="value_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" method="__on_to_erase_count_changed"]
