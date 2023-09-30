@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvm8wfao15lxp"
-path="res://.godot/imported/floppy.png-8ad4e5217b00e8552926b040b1d64bf9.ctex"
+uid="uid://bli0a82l0d6l4"
+path="res://.godot/imported/delete.png-deaa3f656a24523b4034f21c692b089d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://floppy.png"
-dest_files=["res://.godot/imported/floppy.png-8ad4e5217b00e8552926b040b1d64bf9.ctex"]
+source_file="res://delete.png"
+dest_files=["res://.godot/imported/delete.png-deaa3f656a24523b4034f21c692b089d.ctex"]
 
 [params]
 

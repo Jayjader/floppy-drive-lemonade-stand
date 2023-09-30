@@ -26,6 +26,12 @@ window/vsync/vsync_mode=2
 
 enabled=PackedStringArray("res://addons/easy_charts/plugin.cfg")
 
+[importer_defaults]
+
+texture={
+"mipmaps/generate": true
+}
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
