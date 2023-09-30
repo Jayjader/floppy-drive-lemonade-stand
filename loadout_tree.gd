@@ -1,5 +1,7 @@
 extends Tree
 
+signal floppy_drives_written(count: int, loadout: Array[FileRs])
+
 @export var write_button: Button
 @export var write_input: SpinBox
 
@@ -58,9 +60,20 @@ func __on_delete_pressed():
 	var tree_item: TreeItem = get_selected()
 	var file: FileRs = tree_item.get_metadata(0)
 	_set_space_left(space_left + file.size)
+	nothing_selected.emit()
 	tree_item.free()
 	if d_drive.get_first_child() == null:
 		if !write_button.is_disabled():
-			write_button.set_disabled(false)
+			write_button.set_disabled(true)
 		if !write_input.editable:
 			write_input.editable = true
+
+
+func __on_write_pressed():
+	var count := write_input.value
+	var loadout: Array[FileRs] = []
+	var current = d_drive
+	while current.get_next() != null:
+		current = current.get_next()
+		loadout.append(current.get_metadata(0))
+	floppy_drives_written.emit(loadout)

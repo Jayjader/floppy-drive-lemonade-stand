@@ -58,6 +58,7 @@ layout_mode = 2
 size_flags_vertical = 3
 columns = 2
 column_titles_visible = true
+hide_folding = true
 hide_root = true
 select_mode = 1
 script = ExtResource("1_obaa5")
@@ -92,6 +93,7 @@ layout_mode = 2
 size_flags_vertical = 3
 columns = 2
 column_titles_visible = true
+hide_folding = true
 hide_root = true
 select_mode = 1
 script = ExtResource("3_2wu5d")
@@ -331,6 +333,7 @@ text = "Leave"
 [connection signal="item_selected" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Delete" method="set_disabled" binds= [false]]
 [connection signal="nothing_selected" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Delete" method="set_disabled" binds= [true]]
 [connection signal="pressed" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Delete" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" method="__on_delete_pressed"]
+[connection signal="pressed" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Write" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" method="__on_write_pressed"]
 [connection signal="pressed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more/goto store" to="Brick and Mortar Computing Store" method="show"]
 [connection signal="written_count_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/count/written count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" method="__on_written_count_changed"]
 [connection signal="value_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" method="__on_to_erase_count_changed"]
