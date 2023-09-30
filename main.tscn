@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=7 format=3 uid="uid://b8yb1atlaq3qa"]
 
 [ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
+[ext_resource type="Script" path="res://funds_money_count.gd" id="1_ionjp"]
+[ext_resource type="Script" path="res://blank_floppy_count.gd" id="2_wvw6u"]
+[ext_resource type="Script" path="res://written_floppy_stock.gd" id="3_nd2e6"]
+[ext_resource type="Script" path="res://floppy_to_erase_count.gd" id="4_eg2ox"]
+[ext_resource type="Script" path="res://erase_written_floppies.gd" id="5_gt1ln"]
 
 [node name="PanelContainer" type="PanelContainer"]
 anchors_preset = 15
@@ -53,6 +58,15 @@ size_flags_vertical = 0
 text = "Stock"
 horizontal_alignment = 1
 
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer"]
+layout_mode = 2
+
+[node name="funds count" type="Label" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Funds: $X.XX"
+script = ExtResource("1_ionjp")
+money_in_cents = 303
+
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -60,36 +74,75 @@ size_flags_vertical = 3
 [node name="Blank" type="VBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
-alignment = 1
+alignment = 2
 
 [node name="count" type="HBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="blank floppy" type="TextureRect" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count"]
+[node name="icon" type="TextureRect" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count"]
 layout_mode = 2
 texture = ExtResource("1_bimid")
+stretch_mode = 5
 
 [node name="blank count" type="Label" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count"]
 layout_mode = 2
-text = "x 332"
+text = "x 200"
+script = ExtResource("2_wvw6u")
+count = 200
 
 [node name="get more" type="HBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank"]
 layout_mode = 2
-theme_override_constants/separation = 10
 
-[node name="go to store" type="Button" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more"]
+[node name="goto store" type="Button" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more"]
 layout_mode = 2
 text = "Go to store"
 
 [node name="order online" type="Button" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more"]
 layout_mode = 2
+disabled = true
 text = "Order online"
 
 [node name="Written" type="VBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="count" type="HBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="icon" type="TextureRect" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/count"]
+layout_mode = 2
+texture = ExtResource("1_bimid")
+
+[node name="written count" type="Label" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/count"]
+layout_mode = 2
+text = "x X"
+script = ExtResource("3_nd2e6")
+count = 3
+
+[node name="erase" type="HBoxContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="to erase count" type="SpinBox" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase"]
+layout_mode = 2
+max_value = 0.0
+alignment = 2
+update_on_text_changed = true
+select_all_on_focus = true
+script = ExtResource("4_eg2ox")
+
+[node name="button" type="Button" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase"]
+layout_mode = 2
+text = "Erase"
+script = ExtResource("5_gt1ln")
 
 [node name="internet" type="HSplitContainer" parent="HSplitContainer/main content"]
 layout_mode = 2
@@ -130,3 +183,6 @@ layout_mode = 2
 layout_mode = 2
 text = "Calendar"
 horizontal_alignment = 1
+
+[connection signal="written_count_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/count/written count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" method="__on_written_count_changed"]
+[connection signal="value_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" method="__on_to_erase_count_changed"]
