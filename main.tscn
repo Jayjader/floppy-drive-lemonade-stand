@@ -28,19 +28,19 @@ grow_vertical = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 layout_mode = 2
-split_offset = 590
+split_offset = 812
 
 [node name="main content" type="VSplitContainer" parent="HSplitContainer"]
 layout_mode = 2
-split_offset = 245
+split_offset = 380
 
 [node name="floppies and files" type="HSplitContainer" parent="HSplitContainer/main content"]
 layout_mode = 2
-split_offset = 420
+split_offset = 600
 
 [node name="floppy writer" type="HSplitContainer" parent="HSplitContainer/main content/floppies and files"]
 layout_mode = 2
-split_offset = 215
+split_offset = 300
 
 [node name="local files" type="PanelContainer" parent="HSplitContainer/main content/floppies and files/floppy writer"]
 layout_mode = 2
@@ -219,7 +219,7 @@ script = ExtResource("5_gt1ln")
 
 [node name="internet" type="HSplitContainer" parent="HSplitContainer/main content"]
 layout_mode = 2
-split_offset = 300
+split_offset = 402
 
 [node name="download queue" type="PanelContainer" parent="HSplitContainer/main content/internet"]
 layout_mode = 2
