@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://b8yb1atlaq3qa"]
+
+[node name="PanelContainer" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 2
+split_offset = 495
+
+[node name="main content" type="VSplitContainer" parent="HSplitContainer"]
+layout_mode = 2
+split_offset = 245
+
+[node name="floppies and files" type="HSplitContainer" parent="HSplitContainer/main content"]
+layout_mode = 2
+split_offset = 340
+
+[node name="file loader" type="HSplitContainer" parent="HSplitContainer/main content/floppies and files"]
+layout_mode = 2
+split_offset = 165
+
+[node name="local files" type="PanelContainer" parent="HSplitContainer/main content/floppies and files/file loader"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/file loader/local files"]
+layout_mode = 2
+text = "Local Files"
+horizontal_alignment = 1
+
+[node name="floppy loadout" type="PanelContainer" parent="HSplitContainer/main content/floppies and files/file loader"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/file loader/floppy loadout"]
+layout_mode = 2
+text = "Floppy Loadout"
+horizontal_alignment = 1
+
+[node name="stock" type="PanelContainer" parent="HSplitContainer/main content/floppies and files"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/main content/floppies and files/stock"]
+layout_mode = 2
+text = "Stock"
+horizontal_alignment = 1
+
+[node name="internet" type="HSplitContainer" parent="HSplitContainer/main content"]
+layout_mode = 2
+split_offset = 260
+
+[node name="download queue" type="PanelContainer" parent="HSplitContainer/main content/internet"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/main content/internet/download queue"]
+layout_mode = 2
+text = "Download Queue"
+horizontal_alignment = 1
+
+[node name="torrent browser" type="PanelContainer" parent="HSplitContainer/main content/internet"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/main content/internet/torrent browser"]
+layout_mode = 2
+text = "Torrent Browser"
+horizontal_alignment = 1
+
+[node name="sidebar" type="VSplitContainer" parent="HSplitContainer"]
+layout_mode = 2
+split_offset = 350
+
+[node name="News" type="PanelContainer" parent="HSplitContainer/sidebar"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/sidebar/News"]
+layout_mode = 2
+text = "News"
+horizontal_alignment = 1
+
+[node name="Calendar" type="PanelContainer" parent="HSplitContainer/sidebar"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/sidebar/Calendar"]
+layout_mode = 2
+text = "Calendar"
+horizontal_alignment = 1
