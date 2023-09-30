@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=11 format=3 uid="uid://b8yb1atlaq3qa"]
 
 [ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
 [ext_resource type="Script" path="res://funds_money_count.gd" id="1_ionjp"]
@@ -6,6 +6,14 @@
 [ext_resource type="Script" path="res://written_floppy_stock.gd" id="3_nd2e6"]
 [ext_resource type="Script" path="res://floppy_to_erase_count.gd" id="4_eg2ox"]
 [ext_resource type="Script" path="res://erase_written_floppies.gd" id="5_gt1ln"]
+[ext_resource type="Script" path="res://choose_purchase_volume.gd" id="7_0brk0"]
+[ext_resource type="Script" path="res://buy_at_store.gd" id="7_r1ef6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_k2gdu"]
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_nfghg"]
 
 [node name="PanelContainer" type="PanelContainer"]
 anchors_preset = 15
@@ -65,7 +73,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Funds: $X.XX"
 script = ExtResource("1_ionjp")
-money_in_cents = 303
+money_in_cents = 3000
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/main content/floppies and files/stock/VBoxContainer"]
 layout_mode = 2
@@ -184,5 +192,75 @@ layout_mode = 2
 text = "Calendar"
 horizontal_alignment = 1
 
+[node name="Brick and Mortar Computing Store" type="PopupPanel" parent="."]
+initial_position = 1
+size = Vector2i(318, 240)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Brick and Mortar Computing Store"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 314.0
+offset_bottom = 236.0
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Brick and Mortar Computing Store/VBoxContainer"]
+layout_mode = 2
+text = "BRIKKE & MOARTER'S
+COMPUTER STORE"
+label_settings = SubResource("LabelSettings_k2gdu")
+horizontal_alignment = 1
+
+[node name="buttons" type="HBoxContainer" parent="Brick and Mortar Computing Store/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="purchase volume choice" type="VBoxContainer" parent="Brick and Mortar Computing Store/VBoxContainer/buttons"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+script = ExtResource("7_0brk0")
+
+[node name="1" type="Button" parent="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice"]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_nfghg")
+text = "x 1"
+icon = ExtResource("1_bimid")
+
+[node name="25" type="Button" parent="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_nfghg")
+text = "x 25"
+icon = ExtResource("1_bimid")
+
+[node name="100" type="Button" parent="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_nfghg")
+text = "x 100"
+icon = ExtResource("1_bimid")
+
+[node name="action buttons" type="VBoxContainer" parent="Brick and Mortar Computing Store/VBoxContainer/buttons"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="buy chosen volume" type="Button" parent="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons"]
+layout_mode = 2
+script = ExtResource("7_r1ef6")
+
+[node name="close popup" type="Button" parent="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons"]
+layout_mode = 2
+text = "Leave"
+
+[connection signal="pressed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more/goto store" to="Brick and Mortar Computing Store" method="show"]
 [connection signal="written_count_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/count/written count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" method="__on_written_count_changed"]
 [connection signal="value_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" method="__on_to_erase_count_changed"]
+[connection signal="choice_made" from="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_purchase_volume_choice_made"]
+[connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_blank_floppies_purchased"]
+[connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count/blank count" method="__on_blank_floppies_purchased"]
+[connection signal="pressed" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_self_pressed"]
+[connection signal="pressed" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/close popup" to="Brick and Mortar Computing Store" method="hide"]
