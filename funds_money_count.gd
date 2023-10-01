@@ -7,5 +7,5 @@ extends Label
 
 @onready var viewport = get_viewport()
 
-func __on_blank_floppies_purchased(count: int, cost: int):
+func __on_blank_floppies_purchased(_count: int, cost: int):
 	money_in_cents -= cost
