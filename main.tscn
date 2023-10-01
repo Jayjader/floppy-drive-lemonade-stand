@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=25 format=3 uid="uid://b8yb1atlaq3qa"]
 
 [ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
 [ext_resource type="Script" path="res://funds_money_count.gd" id="1_ionjp"]
@@ -16,6 +16,12 @@
 [ext_resource type="Script" path="res://current_day.gd" id="12_5crww"]
 [ext_resource type="Script" path="res://time_of_day.gd" id="13_5hhbt"]
 [ext_resource type="Script" path="res://advance_game.gd" id="14_iodfw"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="17_irubi"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="18_jjpx8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="19_nsfel"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="20_ilqcc"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="21_jyfxu"]
+[ext_resource type="Script" path="res://game_over_details.gd" id="22_m4v5a"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2gdu"]
 outline_size = 3
@@ -280,11 +286,13 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="today date" type="Label" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
+[node name="today date" type="Label" parent="HSplitContainer/sidebar/Calendar/VBoxContainer" node_paths=PackedStringArray("state_chart")]
 layout_mode = 2
 text = "X of XXXX"
 horizontal_alignment = 1
 script = ExtResource("12_5crww")
+day = 29
+state_chart = NodePath("../../../../../StateChart")
 
 [node name="time of day" type="Label" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
 layout_mode = 2
@@ -296,10 +304,11 @@ script = ExtResource("13_5hhbt")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="advance game" type="Button" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
+[node name="advance game" type="Button" parent="HSplitContainer/sidebar/Calendar/VBoxContainer" node_paths=PackedStringArray("state_chart")]
 layout_mode = 2
 text = "Go to XXXXX"
 script = ExtResource("14_iodfw")
+state_chart = NodePath("../../../../../StateChart")
 
 [node name="Brick and Mortar Computing Store" type="PopupPanel" parent="."]
 initial_position = 1
@@ -366,6 +375,91 @@ script = ExtResource("7_r1ef6")
 layout_mode = 2
 text = "Leave"
 
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("17_irubi")
+
+[node name="root" type="Node" parent="StateChart"]
+script = ExtResource("18_jjpx8")
+initial_state = NodePath("start of new day")
+
+[node name="start of new day" type="Node" parent="StateChart/root"]
+script = ExtResource("19_nsfel")
+
+[node name="go to class" type="Node" parent="StateChart/root/start of new day"]
+script = ExtResource("20_ilqcc")
+to = NodePath("../../in class")
+event = &"go to class"
+
+[node name="in class" type="Node" parent="StateChart/root"]
+script = ExtResource("19_nsfel")
+
+[node name="classes end" type="Node" parent="StateChart/root/in class"]
+script = ExtResource("20_ilqcc")
+to = NodePath("../../after class")
+delay_seconds = 2.0
+
+[node name="after class" type="Node" parent="StateChart/root"]
+script = ExtResource("19_nsfel")
+
+[node name="go to sleep" type="Node" parent="StateChart/root/after class"]
+script = ExtResource("20_ilqcc")
+to = NodePath("../../sleeping")
+event = &"go to sleep"
+
+[node name="sleeping" type="Node" parent="StateChart/root"]
+script = ExtResource("19_nsfel")
+
+[node name="day ended" type="Node" parent="StateChart/root/sleeping"]
+script = ExtResource("20_ilqcc")
+to = NodePath("../../day change upkeeping")
+delay_seconds = 2.0
+
+[node name="day change upkeeping" type="Node" parent="StateChart/root"]
+script = ExtResource("19_nsfel")
+
+[node name="to new day" type="Node" parent="StateChart/root/day change upkeeping"]
+script = ExtResource("20_ilqcc")
+to = NodePath("../../start of new day")
+event = &"new day started"
+
+[node name="to game over" type="Node" parent="StateChart/root/day change upkeeping"]
+script = ExtResource("20_ilqcc")
+to = NodePath("../../game over")
+event = &"game over"
+
+[node name="game over" type="Node" parent="StateChart/root"]
+script = ExtResource("19_nsfel")
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("21_jyfxu")]
+custom_minimum_size = Vector2(600, 360)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+initial_node_to_watch = NodePath("../StateChart")
+
+[node name="Game Over" type="AcceptDialog" parent="."]
+initial_position = 1
+ok_button_text = "New Game"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Game Over"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 347.0
+offset_bottom = 96.0
+
+[node name="Label" type="Label" parent="Game Over/VBoxContainer"]
+layout_mode = 2
+text = "Game Over!"
+horizontal_alignment = 1
+
+[node name="details" type="Label" parent="Game Over/VBoxContainer" node_paths=PackedStringArray("funds_stock")]
+layout_mode = 2
+text = "You weren't abe to pay rent for this month :(
+$XX - $YY = $-ZZ"
+horizontal_alignment = 1
+script = ExtResource("22_m4v5a")
+funds_stock = NodePath("../../../HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count")
+
 [connection signal="file_added_to_loadout" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" method="__on_file_added"]
 [connection signal="item_selected" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/buttons/Delete" method="set_disabled" binds= [false]]
 [connection signal="item_selected" from="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/file tree" to="HSplitContainer/main content/floppies and files/floppy writer/local files/VBoxContainer/buttons/Add to loadout" method="set_disabled" binds= [false]]
@@ -380,15 +474,23 @@ text = "Leave"
 [connection signal="nothing_selected" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Delete" method="set_disabled" binds= [true]]
 [connection signal="pressed" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Delete" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" method="__on_delete_pressed"]
 [connection signal="pressed" from="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/Write" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/loadout tree" method="__on_write_pressed"]
+[connection signal="rent_payment_attempted" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" to="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" method="__on_rent_payment_attempted"]
+[connection signal="rent_payment_attempted" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" to="Game Over/VBoxContainer/details" method="__on_rent_payment_attempted"]
 [connection signal="blank_stock_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count/blank count" to="HSplitContainer/main content/floppies and files/floppy writer/floppy loadout/VBoxContainer/buttons/write amount" method="__on_blank_count_changed"]
 [connection signal="pressed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/get more/goto store" to="Brick and Mortar Computing Store" method="show"]
 [connection signal="drives_erased" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count/blank count" method="__on_written_drives_erased"]
 [connection signal="written_count_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" method="__on_written_count_changed"]
 [connection signal="value_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" method="__on_to_erase_count_changed"]
 [connection signal="erase_floppies" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" method="__on_erase_pressed"]
+[connection signal="rent_needed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_today_date_rent_needed"]
 [connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/Calendar/VBoxContainer/advance game" method="__on_time_of_day_changed"]
 [connection signal="choice_made" from="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_purchase_volume_choice_made"]
 [connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_blank_floppies_purchased"]
 [connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count/blank count" method="__on_blank_floppies_purchased"]
 [connection signal="pressed" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_self_pressed"]
 [connection signal="pressed" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/close popup" to="Brick and Mortar Computing Store" method="hide"]
+[connection signal="state_exited" from="StateChart/root/in class" to="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" method="__on_in_class_state_exited"]
+[connection signal="state_exited" from="StateChart/root/sleeping" to="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" method="__on_sleeping_state_exited"]
+[connection signal="state_exited" from="StateChart/root/sleeping" to="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" method="__on_sleeping_state_exited"]
+[connection signal="state_entered" from="StateChart/root/day change upkeeping" to="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" method="__on_day_change_upkeeping_state_entered"]
+[connection signal="state_entered" from="StateChart/root/game over" to="Game Over" method="show"]
