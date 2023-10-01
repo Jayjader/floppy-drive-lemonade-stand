@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=19 format=3 uid="uid://b8yb1atlaq3qa"]
 
 [ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
 [ext_resource type="Script" path="res://funds_money_count.gd" id="1_ionjp"]
@@ -13,6 +13,9 @@
 [ext_resource type="Script" path="res://choose_purchase_volume.gd" id="7_0brk0"]
 [ext_resource type="Script" path="res://buy_at_store.gd" id="7_r1ef6"]
 [ext_resource type="Script" path="res://written_drives.gd" id="8_457wa"]
+[ext_resource type="Script" path="res://current_day.gd" id="12_5crww"]
+[ext_resource type="Script" path="res://time_of_day.gd" id="13_5hhbt"]
+[ext_resource type="Script" path="res://advance_game.gd" id="14_iodfw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2gdu"]
 outline_size = 3
@@ -252,7 +255,7 @@ horizontal_alignment = 1
 
 [node name="sidebar" type="VSplitContainer" parent="HSplitContainer"]
 layout_mode = 2
-split_offset = 350
+split_offset = 580
 
 [node name="News" type="PanelContainer" parent="HSplitContainer/sidebar"]
 layout_mode = 2
@@ -265,10 +268,38 @@ horizontal_alignment = 1
 [node name="Calendar" type="PanelContainer" parent="HSplitContainer/sidebar"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/sidebar/Calendar"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/sidebar/Calendar"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
 layout_mode = 2
 text = "Calendar"
 horizontal_alignment = 1
+
+[node name="spacer" type="Control" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="today date" type="Label" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
+layout_mode = 2
+text = "X of XXXX"
+horizontal_alignment = 1
+script = ExtResource("12_5crww")
+
+[node name="time of day" type="Label" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
+layout_mode = 2
+text = "XXXXX"
+horizontal_alignment = 1
+script = ExtResource("13_5hhbt")
+
+[node name="spacer2" type="Control" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="advance game" type="Button" parent="HSplitContainer/sidebar/Calendar/VBoxContainer"]
+layout_mode = 2
+text = "Go to XXXXX"
+script = ExtResource("14_iodfw")
 
 [node name="Brick and Mortar Computing Store" type="PopupPanel" parent="."]
 initial_position = 1
@@ -355,6 +386,7 @@ text = "Leave"
 [connection signal="written_count_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" method="__on_written_count_changed"]
 [connection signal="value_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" method="__on_to_erase_count_changed"]
 [connection signal="erase_floppies" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" method="__on_erase_pressed"]
+[connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/Calendar/VBoxContainer/advance game" method="__on_time_of_day_changed"]
 [connection signal="choice_made" from="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_purchase_volume_choice_made"]
 [connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_blank_floppies_purchased"]
 [connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count/blank count" method="__on_blank_floppies_purchased"]
