@@ -19,6 +19,13 @@ func reserve_for_download(request: int) -> int:
 		_set_space_left(space_left - can_reserve)
 	return can_reserve
 
+func free_download_space(bytes: int):
+	downloads_file.size -= bytes
+	if downloads_file.size <= 0:
+		downloads_file.size = 0
+	downloads.set_visible(downloads_file.size > 0)
+	_set_space_left(space_left + bytes)
+
 func _set_space_left(value):
 	space_left = value
 	var occupied = HARD_DRIVE_CAPACITY - space_left

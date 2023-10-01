@@ -36,19 +36,6 @@ func _ready():
 	d_drive.set_selectable(0, false)
 	d_drive.set_selectable(1, false)
 
-	var test_file = FileRs.new()
-	test_file.name = "foo.txt"
-	test_file.size = 33*(2**10)
-	__on_file_added(test_file)
-	var test_file2 = FileRs.new()
-	test_file2.name = "bar.txt"
-	test_file2.size = 11*(2**8)
-	__on_file_added(test_file2)
-	var test_file3 = FileRs.new()
-	test_file3.name = "warez.exe"
-	test_file3.size = 64*(2**14)
-	__on_file_added(test_file3)
-
 func __on_file_added(file: FileRs):
 	if file.size < space_left:
 		var item := create_item(d_drive)

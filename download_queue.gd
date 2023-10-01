@@ -16,11 +16,15 @@ func add_download(d: DownloadRs):
 	progress.value = 0
 	progress.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_child(progress)
-	d.bytes_downloaded.connect(func(bytes, total): progress.value = total)
-	d.finished.connect(func(file):
-		pass # todo cleanup
-		local_files.__on_file_downloaded(file)
-		, CONNECT_ONE_SHOT)
+	var cancel = Button.new()
+	cancel.set_text("Cancel")
+	cancel.pressed.connect(__on_download_cancelled.bind(d, label, progress, cancel), CONNECT_ONE_SHOT)
+	grid.add_child(cancel)
+	
+	d.bytes_downloaded.connect(func(_bytes, total): progress.value = total)
+	d.download_finished.connect(func(_file): for c in d.bytes_downloaded.get_connections(): d.bytes_downloaded.disconnect(c.callable))
+	d.download_finished.connect(local_files.__on_file_downloaded, CONNECT_ONE_SHOT)
+	d.download_finished.connect(__on_download_finished.bind(d, label, progress, cancel), CONNECT_ONE_SHOT)
 
 const BYTES_PER_HOUR = 56 * 2**10 * 3600 # 56KiB/s
 
@@ -55,6 +59,19 @@ func _ready():
 		d4.file = test_file4
 		add_download(d4)
 	).call_deferred()
+
+func __on_download_cancelled(download: DownloadRs, label: Label, progress: ProgressBar, cancel: Button):
+	local_files.free_download_space(download.progress)
+	downloads.erase(download)
+	label.queue_free()
+	progress.queue_free()
+	cancel.queue_free()
+
+func __on_download_finished(_file, download: DownloadRs, label: Label, progress: ProgressBar, cancel: Button):
+	downloads.erase(download)
+	label.queue_free()
+	progress.queue_free()
+	cancel.queue_free()
 
 func __on_time_hour_advanced():
 	var bandwidth_quota = BYTES_PER_HOUR
