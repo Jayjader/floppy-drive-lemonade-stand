@@ -14,13 +14,13 @@
 [ext_resource type="Script" path="res://buy_at_store.gd" id="7_r1ef6"]
 [ext_resource type="Script" path="res://written_drives.gd" id="8_457wa"]
 [ext_resource type="Script" path="res://current_day.gd" id="12_5crww"]
+[ext_resource type="Script" path="res://download_queue.gd" id="12_tcslj"]
 [ext_resource type="Script" path="res://time_of_day.gd" id="13_5hhbt"]
 [ext_resource type="Script" path="res://advance_game.gd" id="14_iodfw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="17_irubi"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="18_jjpx8"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="19_nsfel"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="20_ilqcc"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="21_jyfxu"]
 [ext_resource type="Script" path="res://game_over_details.gd" id="22_m4v5a"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2gdu"]
@@ -246,10 +246,20 @@ split_offset = 402
 [node name="download queue" type="PanelContainer" parent="HSplitContainer/main content/internet"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/main content/internet/download queue"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/main content/internet/download queue" node_paths=PackedStringArray("local_files")]
+layout_mode = 2
+script = ExtResource("12_tcslj")
+local_files = NodePath("../../../floppies and files/floppy writer/local files/VBoxContainer/file tree")
+
+[node name="Label" type="Label" parent="HSplitContainer/main content/internet/download queue/VBoxContainer"]
 layout_mode = 2
 text = "Download Queue"
 horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="HSplitContainer/main content/internet/download queue/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
 
 [node name="torrent browser" type="PanelContainer" parent="HSplitContainer/main content/internet"]
 layout_mode = 2
@@ -430,13 +440,6 @@ event = &"game over"
 [node name="game over" type="Node" parent="StateChart/root"]
 script = ExtResource("19_nsfel")
 
-[node name="StateChartDebugger" parent="." instance=ExtResource("21_jyfxu")]
-custom_minimum_size = Vector2(600, 360)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-initial_node_to_watch = NodePath("../StateChart")
-
 [node name="Game Over" type="AcceptDialog" parent="."]
 initial_position = 1
 ok_button_text = "New Game"
@@ -491,7 +494,9 @@ funds_stock = NodePath("../../../HSplitContainer/main content/floppies and files
 [connection signal="pressed" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_self_pressed"]
 [connection signal="pressed" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/close popup" to="Brick and Mortar Computing Store" method="hide"]
 [connection signal="state_entered" from="StateChart/root/in class" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" method="__on_in_class_state_entered"]
+[connection signal="state_entered" from="StateChart/root/in class" to="HSplitContainer/main content/internet/download queue/VBoxContainer" method="__on_in_class_state_entered"]
 [connection signal="state_exited" from="StateChart/root/in class" to="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" method="__on_in_class_state_exited"]
+[connection signal="state_entered" from="StateChart/root/sleeping" to="HSplitContainer/main content/internet/download queue/VBoxContainer" method="__on_sleeping_state_entered"]
 [connection signal="state_exited" from="StateChart/root/sleeping" to="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" method="__on_sleeping_state_exited"]
 [connection signal="state_exited" from="StateChart/root/sleeping" to="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" method="__on_sleeping_state_exited"]
 [connection signal="state_entered" from="StateChart/root/day change upkeeping" to="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" method="__on_day_change_upkeeping_state_entered"]
