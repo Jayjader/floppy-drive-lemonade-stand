@@ -12,3 +12,4 @@ func _ready():
 
 func __on_to_erase_count_changed(value: int):
 	to_erase = value
+

@@ -14,8 +14,14 @@ var space_left = HARD_DRIVE_CAPACITY
 
 func _set_space_left(value):
 	space_left = value
-	d_drive.set_text(0, "D:// (%2d%% full)" % (1 - space_left / HARD_DRIVE_CAPACITY))
-	d_drive.set_text(1, "%db" % (HARD_DRIVE_CAPACITY - space_left))
+	var occupied = HARD_DRIVE_CAPACITY - space_left
+	if occupied == 0:
+		d_drive.set_text(0, "D:// (empty)")
+	elif occupied == HARD_DRIVE_CAPACITY:
+		d_drive.set_text(0, "D:// (full)")
+	else:
+		d_drive.set_text(0, "D:// (%3d%% full)" % (occupied * 100 / HARD_DRIVE_CAPACITY))
+	d_drive.set_text(1, "%db/%db" % [occupied, HARD_DRIVE_CAPACITY])
 
 func _ready():
 	space_left = HARD_DRIVE_CAPACITY
@@ -44,17 +50,18 @@ func _ready():
 	__on_file_added(test_file3)
 
 func __on_file_added(file: FileRs):
-	var item := create_item(d_drive)
-	item.set_metadata(0, file)
-	item.set_text(0, file.name)
-	item.set_text(1, "%db" % file.size)
-	item.set_text_alignment(1, HORIZONTAL_ALIGNMENT_RIGHT)
-	_set_space_left(space_left - file.size)
-	d_drive.set_text(1, "%db" % (HARD_DRIVE_CAPACITY - space_left))
-	if write_button.is_disabled():
-		write_button.set_disabled(false)
-	if !write_input.editable:
-		write_input.editable = true
+	if file.size < space_left:
+		var item := create_item(d_drive)
+		item.set_metadata(0, file)
+		item.set_text(0, file.name)
+		item.set_text(1, "%db" % file.size)
+		item.set_text_alignment(1, HORIZONTAL_ALIGNMENT_RIGHT)
+		_set_space_left(space_left - file.size)
+		d_drive.set_text(1, "%db" % (HARD_DRIVE_CAPACITY - space_left))
+		if write_button.is_disabled():
+			write_button.set_disabled(false)
+		if !write_input.editable:
+			write_input.editable = true
 
 func __on_delete_pressed():
 	var tree_item: TreeItem = get_selected()
@@ -71,9 +78,10 @@ func __on_delete_pressed():
 
 func __on_write_pressed():
 	var count := write_input.value
-	var loadout: Array[FileRs] = []
-	var current = d_drive
-	while current.get_next() != null:
-		current = current.get_next()
-		loadout.append(current.get_metadata(0))
-	floppy_drives_written.emit(loadout)
+	if count > 0:
+		var loadout: Array[FileRs] = []
+		var current = d_drive.get_first_child()
+		while current != null:
+			loadout.append(current.get_metadata(0))
+			current = current.get_next()
+		floppy_drives_written.emit(count, loadout)

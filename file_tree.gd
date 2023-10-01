@@ -10,11 +10,16 @@ var space_left = HARD_DRIVE_CAPACITY
 
 func _set_space_left(value):
 	space_left = value
-	c_drive.set_text(0, "C:// (%2d%% full)" % (1 - space_left / HARD_DRIVE_CAPACITY))
-	c_drive.set_text(1, "%db" % (HARD_DRIVE_CAPACITY - space_left))
+	var occupied = HARD_DRIVE_CAPACITY - space_left
+	if occupied == 0:
+		c_drive.set_text(0, "C:// (empty)")
+	elif occupied == HARD_DRIVE_CAPACITY:
+		c_drive.set_text(0, "C:// (full)")
+	else:
+		c_drive.set_text(0, "C:// (%3d%% full)" % (occupied * 100 / HARD_DRIVE_CAPACITY))
+	c_drive.set_text(1, "%db/%db" % [occupied, HARD_DRIVE_CAPACITY])
 
 func _ready():
-	space_left = HARD_DRIVE_CAPACITY
 	set_column_title(0, "Name")
 	set_column_title_alignment(0, HORIZONTAL_ALIGNMENT_LEFT)
 	set_column_title(1, "Size")
@@ -25,6 +30,7 @@ func _ready():
 	c_drive.set_text_alignment(1, HORIZONTAL_ALIGNMENT_RIGHT)
 	c_drive.set_selectable(0, false)
 	c_drive.set_selectable(1, false)
+	_set_space_left(HARD_DRIVE_CAPACITY)
 
 	var test_file = FileRs.new()
 	test_file.name = "foo.txt"
@@ -36,7 +42,7 @@ func _ready():
 	__on_file_downloaded(test_file2)
 	var test_file3 = FileRs.new()
 	test_file3.name = "warez.exe"
-	test_file3.size = 64*(2**14)
+	test_file3.size = 32*(2**12)
 	__on_file_downloaded(test_file3)
 
 func __on_file_downloaded(file):
