@@ -6,7 +6,7 @@ signal blank_floppies_purchased(count: int, price_in_cents: int)
 var choice: int:
 	set(data):
 		choice = data
-		set_text("Buy for $%d.%2d" % [prices[choice] / 100, prices[choice] % 100])
+		set_text("Buy for $%d.%02d" % [prices[choice] / 100, prices[choice] % 100])
 
 @export var prices := {
 	1: 15,

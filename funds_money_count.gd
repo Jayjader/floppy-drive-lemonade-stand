@@ -20,3 +20,7 @@ func __on_today_date_rent_needed():
 	if success:
 		money_in_cents -= MONTHLY_DORM_RENT
 	rent_payment_attempted.emit(success)
+
+
+func __on_written_drives_sold(sales: Array[int]):
+	money_in_cents += sales.reduce(func(a,b): return a+b, 0)
