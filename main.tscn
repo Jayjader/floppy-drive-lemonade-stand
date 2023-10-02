@@ -334,6 +334,7 @@ select_mode = 1
 
 [node name="enqueue torrent" type="Button" parent="HSplitContainer/main content/internet/torrent browser/VBoxContainer"]
 layout_mode = 2
+disabled = true
 text = "Add to Download Queue"
 
 [node name="sidebar" type="VSplitContainer" parent="HSplitContainer"]
@@ -553,6 +554,12 @@ funds_stock = NodePath("../../../HSplitContainer/main content/floppies and files
 [connection signal="written_count_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" method="__on_written_count_changed"]
 [connection signal="value_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" method="__on_to_erase_count_changed"]
 [connection signal="erase_floppies" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" method="__on_erase_pressed"]
+[connection signal="torrent_enqueued" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer" to="HSplitContainer/main content/internet/download queue/VBoxContainer" method="__on_torrent_enqueued"]
+[connection signal="item_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_tree_item_selected"]
+[connection signal="item_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" method="set_disabled" binds= [false]]
+[connection signal="nothing_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" method="deselect_all"]
+[connection signal="nothing_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" method="set_disabled" binds= [true]]
+[connection signal="pressed" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_add_to_queue_pressed"]
 [connection signal="rent_needed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_today_date_rent_needed"]
 [connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/Calendar/VBoxContainer/advance game" method="__on_time_of_day_changed"]
 [connection signal="choice_made" from="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_purchase_volume_choice_made"]

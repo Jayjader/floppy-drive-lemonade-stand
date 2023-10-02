@@ -99,3 +99,9 @@ func __on_sleeping_state_entered():
 	# 18:00 -> 8:00
 	for t in range(14):
 		__on_time_hour_advanced()
+
+
+func __on_torrent_enqueued(torrent: TorrentRs):
+	var download = DownloadRs.new()
+	download.file = torrent.file
+	add_download(download)

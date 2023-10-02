@@ -1,5 +1,6 @@
 extends VBoxContainer
 
+signal torrent_enqueued(torrent: TorrentRs)
 
 @export var torrents: Array[TorrentRs] = []
 
@@ -19,23 +20,24 @@ var tools: TreeItem
 var games: TreeItem
 var other_soft: TreeItem
 
-func _prepare_category(parent: TreeItem, name: String) -> TreeItem:
+func _prepare_category(parent: TreeItem, cat_name: String) -> TreeItem:
 	var item = tree_view.create_item(parent)
-	item.set_text(0, name)
+	item.set_text(0, cat_name)
 	item.set_selectable(0, false)
 	item.set_collapsed_recursive(true)
 	return item
 
-func _init_item(item: TreeItem, name: String, size: String, tags: String):
-	item.set_text(0, name)
-	item.set_text(1, size)
+func _init_item(item: TreeItem, torrent: TorrentRs, file_size: String, tags: String):
+	item.set_text(0, torrent.file.name)
+	item.set_text(1, file_size)
 	item.set_text(2, tags)
+	item.set_metadata(0, torrent)
 	
 func _insert_torrent(torrent: TorrentRs) -> void:
 	var file_size = "%d B" % torrent.file.size
 	var joined_tags = ", ".join(torrent.tags)
 	var all_item = tree_view.create_item(all)
-	_init_item(all_item, torrent.file.name, file_size, joined_tags)
+	_init_item(all_item, torrent, file_size, joined_tags)
 	
 	var category: TreeItem
 	if TorrentRs.DOCUMENT in torrent.tags:
@@ -56,7 +58,7 @@ func _insert_torrent(torrent: TorrentRs) -> void:
 			category = games
 		else:
 			category = other_soft
-	_init_item(tree_view.create_item(category), torrent.file.name, file_size, joined_tags)
+	_init_item(tree_view.create_item(category), torrent, file_size, joined_tags)
 
 func _ready():
 	root = tree_view.create_item()
@@ -77,3 +79,12 @@ func _ready():
 	
 	for t in torrents:
 		_insert_torrent(t)
+
+var selected: TorrentRs
+func __on_tree_item_selected():
+	var item = tree_view.get_selected()
+	selected = item.get_metadata(0) as TorrentRs
+
+func __on_add_to_queue_pressed():
+	torrent_enqueued.emit(selected)
+	tree_view.deselect_all()
