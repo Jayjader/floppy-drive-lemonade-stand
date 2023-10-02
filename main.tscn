@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=51 format=3 uid="uid://b8yb1atlaq3qa"]
 
 [ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
 [ext_resource type="Script" path="res://funds_money_count.gd" id="1_ionjp"]
@@ -94,6 +94,68 @@ creation_month = &"September"
 tags = Array[StringName]([&"SOFTWARE", &"TOOL"])
 messages_before_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_2uns2")])
 messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_x2kln")])
+
+[sub_resource type="Resource" id="Resource_o5jx8"]
+script = ExtResource("14_4naa8")
+name = "october_museum_excursion_waiver.pdf"
+size = 79872
+
+[sub_resource type="Resource" id="Resource_1dv8s"]
+script = ExtResource("15_saivj")
+authors = Array[String](["HistoryDepartmentSecretarysOffice"])
+texts = Array[String](["For those intending on joining the upcoming museum excursion in October, you MUST have brought a filled-out waiver to the Secretary's office BEFORE THE DAY OF THE OUTING."])
+
+[sub_resource type="Resource" id="Resource_onhe7"]
+script = ExtResource("15_bpmyu")
+file = SubResource("Resource_o5jx8")
+creation_day = 10
+creation_month = &"September"
+tags = Array[StringName]([&"DOCUMENT", &"PDF"])
+messages_before_creation = Array[ExtResource("15_saivj")]([])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_1dv8s")])
+
+[sub_resource type="Resource" id="Resource_he0go"]
+script = ExtResource("14_4naa8")
+name = "on_microbiology__pierce_nakai.txt"
+size = 33792
+
+[sub_resource type="Resource" id="Resource_w0e14"]
+script = ExtResource("15_saivj")
+authors = Array[String](["johnB345", "phoebeG119", "alanJ206"])
+texts = Array[String](["I lost my copy of \"On Microbiology\" U_U any1 willing to share???", "Omg the microbiology test is next week and all the textbooks from the library are reserved! Where can I find one?", "Great, the dissection ruined my microbiology test book. Thanks Alan for the clumbsy hands!!!"])
+
+[sub_resource type="Resource" id="Resource_a0dyw"]
+script = ExtResource("15_bpmyu")
+file = SubResource("Resource_he0go")
+creation_day = 1
+creation_month = &"September"
+tags = Array[StringName]([&"DOCUMENT", &"TEXT"])
+messages_before_creation = Array[ExtResource("15_saivj")]([])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_w0e14")])
+
+[sub_resource type="Resource" id="Resource_q78wr"]
+script = ExtResource("14_4naa8")
+name = "statistics_101.pdf"
+size = 48128
+
+[sub_resource type="Resource" id="Resource_j8ydg"]
+script = ExtResource("15_saivj")
+authors = Array[String](["lauraC288", "pierreD913", "alishaG334"])
+texts = Array[String](["Who wants to study together for next week's stats exam? I can \"share\" my textbook with you while we study :)", "Uh-oh, apparently the teachers aren't very happy that the stats textbook is being shared around. Turns out the publishing company is owned by a friend of the staff...", "I lost my stats textbook! Who can share with me temporarily?"])
+
+[sub_resource type="Resource" id="Resource_tj2qq"]
+script = ExtResource("15_saivj")
+authors = Array[String](["lauraC288"])
+texts = Array[String](["Has anyone scanned the stats text book yet? It's 20 years old and still costs over $200 online..."])
+
+[sub_resource type="Resource" id="Resource_r87sg"]
+script = ExtResource("15_bpmyu")
+file = SubResource("Resource_q78wr")
+creation_day = 5
+creation_month = &"September"
+tags = Array[StringName]([&"DOCUMENT", &"PDF"])
+messages_before_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_tj2qq")])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_j8ydg")])
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2gdu"]
 outline_size = 3
@@ -339,7 +401,7 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/main content/internet/torrent browser" node_paths=PackedStringArray("news_ticker")]
 layout_mode = 2
 script = ExtResource("13_gl00y")
-torrents = Array[ExtResource("15_bpmyu")]([SubResource("Resource_qf15o"), SubResource("Resource_rmxvp"), SubResource("Resource_t8ymp")])
+torrents = Array[ExtResource("15_bpmyu")]([SubResource("Resource_qf15o"), SubResource("Resource_rmxvp"), SubResource("Resource_t8ymp"), SubResource("Resource_onhe7"), SubResource("Resource_a0dyw"), SubResource("Resource_r87sg")])
 news_ticker = NodePath("../../../../sidebar/News/VBoxContainer/ScrollContainer/VBoxContainer")
 
 [node name="Label" type="Label" parent="HSplitContainer/main content/internet/torrent browser/VBoxContainer"]
@@ -395,6 +457,7 @@ horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/sidebar/News/VBoxContainer/ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 script = ExtResource("17_mnxgo")
 
 [node name="Calendar" type="PanelContainer" parent="HSplitContainer/sidebar"]
@@ -610,6 +673,7 @@ funds_stock = NodePath("../../../HSplitContainer/main content/floppies and files
 [connection signal="nothing_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" method="set_disabled" binds= [true]]
 [connection signal="pressed" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_add_to_queue_pressed"]
 [connection signal="date_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_today_date_changed"]
+[connection signal="date_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/sidebar/News/VBoxContainer/ScrollContainer/VBoxContainer" method="__on_today_date_changed"]
 [connection signal="rent_needed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_today_date_rent_needed"]
 [connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/News/VBoxContainer/ScrollContainer/VBoxContainer" method="__on_time_of_day_changed"]
 [connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/Calendar/VBoxContainer/advance game" method="__on_time_of_day_changed"]
