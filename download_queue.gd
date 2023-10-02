@@ -28,37 +28,6 @@ func add_download(d: DownloadRs):
 
 const BYTES_PER_HOUR = 56 * 2**10 * 3600 # 56KiB/s
 
-func _ready():
-	(func():
-		var test_file1 = FileRs.new()
-		test_file1.name = "office_CRACKED_xxx1337hak0r5xxx.exe"
-		test_file1.size = 9724*(2**14)
-		
-		var test_file2 = FileRs.new()
-		test_file2.name = "bar.txt"
-		test_file2.size = 11*(2**8)
-		
-		var test_file3 = FileRs.new()
-		test_file3.name = "warez.exe"
-		test_file3.size = 32*(2**12)
-		
-		var test_file4 = FileRs.new()
-		test_file4.name = "foo.txt"
-		test_file4.size = 33*(2**10)
-		
-		var d1 = DownloadRs.new()
-		d1.file = test_file1
-		add_download(d1)
-		var d2 = DownloadRs.new()
-		d2.file = test_file2
-		add_download(d2)
-		var d3 = DownloadRs.new()
-		d3.file = test_file3
-		add_download(d3)
-		var d4 = DownloadRs.new()
-		d4.file = test_file4
-		add_download(d4)
-	).call_deferred()
 
 func __on_download_cancelled(download: DownloadRs, label: Label, progress: ProgressBar, cancel: Button):
 	local_files.free_download_space(download.progress)

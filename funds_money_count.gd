@@ -2,7 +2,7 @@ extends Label
 
 signal rent_payment_attempted(success: bool)
 
-const MONTHLY_DORM_RENT = 5000
+const MONTHLY_DORM_RENT = 2000
 
 @export var money_in_cents:int:
 	set(data):

@@ -1,12 +1,17 @@
 extends VBoxContainer
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+signal torrent_created(torrent: TorrentRs)
 signal torrent_enqueued(torrent: TorrentRs)
 
 @export var torrents: Array[TorrentRs] = []
 
+@export var news_ticker: Control
+
 @onready var to_insert := torrents.slice(0)
 
 @onready var tree_view: Tree = $Tree
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 var root: TreeItem
 var all: TreeItem
@@ -61,6 +66,7 @@ func _insert_torrent(torrent: TorrentRs) -> void:
 		else:
 			category = other_soft
 	_init_item(tree_view.create_item(category), torrent, file_size, joined_tags)
+	torrent_created.emit(torrent)
 
 func _ready():
 	root = tree_view.create_item()
@@ -78,6 +84,8 @@ func _ready():
 	tools = _prepare_category(software, TorrentRs.TOOL)
 	games = _prepare_category(software, TorrentRs.GAME)
 	other_soft = _prepare_category(other_soft, "Others")
+	
+	news_ticker.to_be_created_torrents.append_array(to_insert)
 
 var selected: TorrentRs
 func __on_tree_item_selected():

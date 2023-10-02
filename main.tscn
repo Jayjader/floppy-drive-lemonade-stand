@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=41 format=3 uid="uid://b8yb1atlaq3qa"]
 
 [ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
 [ext_resource type="Script" path="res://funds_money_count.gd" id="1_ionjp"]
@@ -20,7 +20,9 @@
 [ext_resource type="Script" path="res://file_resource.gd" id="14_4naa8"]
 [ext_resource type="Script" path="res://advance_game.gd" id="14_iodfw"]
 [ext_resource type="Script" path="res://torrent_resource.gd" id="15_bpmyu"]
+[ext_resource type="Script" path="res://message_template_resource.gd" id="15_saivj"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="17_irubi"]
+[ext_resource type="Script" path="res://news_ticker.gd" id="17_mnxgo"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="18_jjpx8"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="19_nsfel"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="20_ilqcc"]
@@ -31,17 +33,34 @@ script = ExtResource("14_4naa8")
 name = "student-handbook-welcome.pdf"
 size = 143360
 
+[sub_resource type="Resource" id="Resource_boeqo"]
+script = ExtResource("15_saivj")
+authors = Array[String](["StudentAssociation"])
+texts = Array[String](["The student handbook is out! Grab a printed copy in the student lounge to be super-equipped for your new student life!"])
+
+[sub_resource type="Resource" id="Resource_hyor4"]
+script = ExtResource("15_saivj")
+authors = Array[String](["StudentAssociation"])
+texts = Array[String](["Keep an eye on this space for when we announce the new student association handbook! It's a guide for all new students (and many returning ones) on how best to set up your life here at univesity."])
+
 [sub_resource type="Resource" id="Resource_qf15o"]
 script = ExtResource("15_bpmyu")
 file = SubResource("Resource_vgljj")
 creation_day = 1
 creation_month = &"September"
 tags = Array[StringName]([&"DOCUMENT", &"PDF"])
+messages_before_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_hyor4")])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_boeqo")])
 
 [sub_resource type="Resource" id="Resource_n5clr"]
 script = ExtResource("14_4naa8")
 name = "computer-club-code-of-conduct.txt"
 size = 3072
+
+[sub_resource type="Resource" id="Resource_dqcdv"]
+script = ExtResource("15_saivj")
+authors = Array[String](["ComputerClub"])
+texts = Array[String](["The computer club provides personal website hosting for free for all university students! You'll need to sign our code of conduct. Don't worry, you'll basically be able to do whatever you want with your site as long as you're not doing anything illegal (which you shouldn't anyways!)."])
 
 [sub_resource type="Resource" id="Resource_rmxvp"]
 script = ExtResource("15_bpmyu")
@@ -49,11 +68,23 @@ file = SubResource("Resource_n5clr")
 creation_day = 1
 creation_month = &"September"
 tags = Array[StringName]([&"DOCUMENT", &"TEXT"])
+messages_before_creation = Array[ExtResource("15_saivj")]([])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_dqcdv")])
 
 [sub_resource type="Resource" id="Resource_1segk"]
 script = ExtResource("14_4naa8")
 name = "weekly-class-schedule-fetcher.exe"
 size = 57344
+
+[sub_resource type="Resource" id="Resource_x2kln"]
+script = ExtResource("15_saivj")
+authors = Array[String](["ComputerClub"])
+texts = Array[String](["Here it is: a small app you can run to download your class agenda for the day! You can download it from within the university's network on our filesharing service."])
+
+[sub_resource type="Resource" id="Resource_2uns2"]
+script = ExtResource("15_saivj")
+authors = Array[String](["ComputerClub"])
+texts = Array[String](["Having a hassle finding your classes each day? Hold tight, we're working on something that might help :)"])
 
 [sub_resource type="Resource" id="Resource_t8ymp"]
 script = ExtResource("15_bpmyu")
@@ -61,6 +92,8 @@ file = SubResource("Resource_1segk")
 creation_day = 3
 creation_month = &"September"
 tags = Array[StringName]([&"SOFTWARE", &"TOOL"])
+messages_before_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_2uns2")])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_x2kln")])
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2gdu"]
 outline_size = 3
@@ -303,10 +336,11 @@ columns = 3
 [node name="torrent browser" type="PanelContainer" parent="HSplitContainer/main content/internet"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/main content/internet/torrent browser"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/main content/internet/torrent browser" node_paths=PackedStringArray("news_ticker")]
 layout_mode = 2
 script = ExtResource("13_gl00y")
 torrents = Array[ExtResource("15_bpmyu")]([SubResource("Resource_qf15o"), SubResource("Resource_rmxvp"), SubResource("Resource_t8ymp")])
+news_ticker = NodePath("../../../../sidebar/News/VBoxContainer/ScrollContainer/VBoxContainer")
 
 [node name="Label" type="Label" parent="HSplitContainer/main content/internet/torrent browser/VBoxContainer"]
 layout_mode = 2
@@ -346,10 +380,22 @@ split_offset = 580
 [node name="News" type="PanelContainer" parent="HSplitContainer/sidebar"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/sidebar/News"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/sidebar/News"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/sidebar/News/VBoxContainer"]
 layout_mode = 2
 text = "News"
 horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/sidebar/News/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/sidebar/News/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+script = ExtResource("17_mnxgo")
 
 [node name="Calendar" type="PanelContainer" parent="HSplitContainer/sidebar"]
 layout_mode = 2
@@ -556,6 +602,7 @@ funds_stock = NodePath("../../../HSplitContainer/main content/floppies and files
 [connection signal="written_count_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" method="__on_written_count_changed"]
 [connection signal="value_changed" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/to erase count" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" method="__on_to_erase_count_changed"]
 [connection signal="erase_floppies" from="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written/erase/button" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Written" method="__on_erase_pressed"]
+[connection signal="torrent_created" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer" to="HSplitContainer/sidebar/News/VBoxContainer/ScrollContainer/VBoxContainer" method="__on_torrent_created"]
 [connection signal="torrent_enqueued" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer" to="HSplitContainer/main content/internet/download queue/VBoxContainer" method="__on_torrent_enqueued"]
 [connection signal="item_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_tree_item_selected"]
 [connection signal="item_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" method="set_disabled" binds= [false]]
@@ -565,6 +612,7 @@ funds_stock = NodePath("../../../HSplitContainer/main content/floppies and files
 [connection signal="date_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_today_date_changed"]
 [connection signal="rent_needed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_today_date_rent_needed"]
 [connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/Calendar/VBoxContainer/advance game" method="__on_time_of_day_changed"]
+[connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/News/VBoxContainer/ScrollContainer/VBoxContainer" method="__on_time_of_day_changed"]
 [connection signal="choice_made" from="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_purchase_volume_choice_made"]
 [connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_blank_floppies_purchased"]
 [connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count/blank count" method="__on_blank_floppies_purchased"]
