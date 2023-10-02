@@ -522,7 +522,7 @@ script = ExtResource("19_nsfel")
 [node name="classes end" type="Node" parent="StateChart/root/in class"]
 script = ExtResource("20_ilqcc")
 to = NodePath("../../after class")
-delay_seconds = 2.0
+delay_seconds = 1.0
 
 [node name="after class" type="Node" parent="StateChart/root"]
 script = ExtResource("19_nsfel")
@@ -538,7 +538,7 @@ script = ExtResource("19_nsfel")
 [node name="day ended" type="Node" parent="StateChart/root/sleeping"]
 script = ExtResource("20_ilqcc")
 to = NodePath("../../day change upkeeping")
-delay_seconds = 2.0
+delay_seconds = 1.0
 
 [node name="day change upkeeping" type="Node" parent="StateChart/root"]
 script = ExtResource("19_nsfel")
@@ -611,8 +611,8 @@ funds_stock = NodePath("../../../HSplitContainer/main content/floppies and files
 [connection signal="pressed" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_add_to_queue_pressed"]
 [connection signal="date_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_today_date_changed"]
 [connection signal="rent_needed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_today_date_rent_needed"]
-[connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/Calendar/VBoxContainer/advance game" method="__on_time_of_day_changed"]
 [connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/News/VBoxContainer/ScrollContainer/VBoxContainer" method="__on_time_of_day_changed"]
+[connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/Calendar/VBoxContainer/advance game" method="__on_time_of_day_changed"]
 [connection signal="choice_made" from="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_purchase_volume_choice_made"]
 [connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_blank_floppies_purchased"]
 [connection signal="blank_floppies_purchased" from="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/TabContainer/Blank/count/blank count" method="__on_blank_floppies_purchased"]
