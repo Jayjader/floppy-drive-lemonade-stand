@@ -26,7 +26,7 @@ func add_download(d: DownloadRs):
 	d.download_finished.connect(local_files.__on_file_downloaded, CONNECT_ONE_SHOT)
 	d.download_finished.connect(__on_download_finished.bind(d, label, progress, cancel), CONNECT_ONE_SHOT)
 
-const BYTES_PER_HOUR = 56 * 2**10 * 3600 # 56KiB/s
+const BYTES_PER_HOUR = 14400
 
 
 func __on_download_cancelled(download: DownloadRs, label: Label, progress: ProgressBar, cancel: Button):

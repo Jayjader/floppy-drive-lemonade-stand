@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://b8yb1atlaq3qa"]
+[gd_scene load_steps=66 format=3 uid="uid://b8yb1atlaq3qa"]
 
 [ext_resource type="Texture2D" uid="uid://dvm8wfao15lxp" path="res://floppy.png" id="1_bimid"]
 [ext_resource type="Script" path="res://funds_money_count.gd" id="1_ionjp"]
@@ -156,6 +156,101 @@ creation_month = &"September"
 tags = Array[StringName]([&"DOCUMENT", &"PDF"])
 messages_before_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_tj2qq")])
 messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_j8ydg")])
+
+[sub_resource type="Resource" id="Resource_hqkyh"]
+script = ExtResource("14_4naa8")
+name = "S3E2__HPO_THE_UNDEAD_WALKING.mp4"
+size = 532480
+
+[sub_resource type="Resource" id="Resource_tfuct"]
+script = ExtResource("15_saivj")
+authors = Array[String](["alexH725"])
+texts = Array[String](["Can someone share their FlixNet account with me? I really need to watch the new The Undead Walking episode before everyone spoils it to me :("])
+
+[sub_resource type="Resource" id="Resource_kk7yw"]
+script = ExtResource("15_saivj")
+authors = Array[String](["jennaF723"])
+texts = Array[String](["OMG can't believe they just killed off so many characters in one episode #TUW", "Love this show #TUW", "Can't wait for the next episode ! <3 #TUW", "Who's up for a watch party saturday for the next #TUW episode? I can make popcorn!"])
+
+[sub_resource type="Resource" id="Resource_wgm46"]
+script = ExtResource("15_bpmyu")
+file = SubResource("Resource_hqkyh")
+creation_day = 5
+creation_month = &"September"
+tags = Array[StringName]([&"DOCUMENT", &"VIDEO"])
+messages_before_creation = Array[ExtResource("15_saivj")]([])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_tfuct"), SubResource("Resource_kk7yw")])
+
+[sub_resource type="Resource" id="Resource_mom54"]
+script = ExtResource("14_4naa8")
+name = "top_50_summer_mix.mp3"
+size = 978944
+
+[sub_resource type="Resource" id="Resource_fdlnx"]
+script = ExtResource("15_saivj")
+authors = Array[String](["StudentAssociation"])
+texts = Array[String](["#HELPHELPHELP The DJ we had found can't make it, we really need to find music to play for the entire evening or the student welcoming party is ruined!"])
+
+[sub_resource type="Resource" id="Resource_2qlkx"]
+script = ExtResource("15_saivj")
+authors = Array[String](["StudentAssociation"])
+texts = Array[String](["#Help We need some extra songs for the welcoming party! If you have suggestions and/or know a good dj, stop by the association headquarters to let us know."])
+
+[sub_resource type="Resource" id="Resource_yjqux"]
+script = ExtResource("15_bpmyu")
+file = SubResource("Resource_mom54")
+creation_day = 2
+creation_month = &"September"
+tags = Array[StringName]([&"DOCUMENT", &"AUDIO"])
+messages_before_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_2qlkx")])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_fdlnx")])
+
+[sub_resource type="Resource" id="Resource_o8em0"]
+script = ExtResource("14_4naa8")
+name = "DOOM_lite.exe"
+size = 899313
+
+[sub_resource type="Resource" id="Resource_4ghue"]
+script = ExtResource("15_saivj")
+authors = Array[String](["benD448", "mohammedB274", "adamT401"])
+texts = Array[String](["Doom LAN this weekend!", "heh fragged some n00bs during last LAB session", "My copy of Doom is corrupted, can someone lend me theirs?", "I wish the actual Doom could fit on a single floppy drive...", "Oh great now the teachers want to know how the doom file keeps cropping up on the school computers. Nobody say anything!!1!"])
+
+[sub_resource type="Resource" id="Resource_u5lht"]
+script = ExtResource("15_bpmyu")
+file = SubResource("Resource_o8em0")
+creation_day = 1
+creation_month = &"September"
+tags = Array[StringName]([&"SOFTWARE", &"GAME"])
+messages_before_creation = Array[ExtResource("15_saivj")]([])
+messages_after_creation = Array[ExtResource("15_saivj")]([SubResource("Resource_4ghue")])
+
+[sub_resource type="Resource" id="Resource_adj8q"]
+script = ExtResource("14_4naa8")
+name = "stats_notes.jpeg"
+size = 307200
+
+[sub_resource type="Resource" id="Resource_mepiw"]
+script = ExtResource("15_bpmyu")
+file = SubResource("Resource_adj8q")
+creation_day = 6
+creation_month = &"September"
+tags = Array[StringName]([&"DOCUMENT", &"IMAGE"])
+messages_before_creation = Array[ExtResource("15_saivj")]([])
+messages_after_creation = Array[ExtResource("15_saivj")]([])
+
+[sub_resource type="Resource" id="Resource_l04bu"]
+script = ExtResource("14_4naa8")
+name = "chem_notes.jpeg"
+size = 233472
+
+[sub_resource type="Resource" id="Resource_xxeyd"]
+script = ExtResource("15_bpmyu")
+file = SubResource("Resource_l04bu")
+creation_day = 6
+creation_month = &"September"
+tags = Array[StringName]([&"DOCUMENT", &"IMAGE"])
+messages_before_creation = Array[ExtResource("15_saivj")]([])
+messages_after_creation = Array[ExtResource("15_saivj")]([])
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2gdu"]
 outline_size = 3
@@ -401,7 +496,7 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/main content/internet/torrent browser" node_paths=PackedStringArray("news_ticker")]
 layout_mode = 2
 script = ExtResource("13_gl00y")
-torrents = Array[ExtResource("15_bpmyu")]([SubResource("Resource_qf15o"), SubResource("Resource_rmxvp"), SubResource("Resource_t8ymp"), SubResource("Resource_onhe7"), SubResource("Resource_a0dyw"), SubResource("Resource_r87sg")])
+torrents = Array[ExtResource("15_bpmyu")]([SubResource("Resource_qf15o"), SubResource("Resource_rmxvp"), SubResource("Resource_t8ymp"), SubResource("Resource_onhe7"), SubResource("Resource_a0dyw"), SubResource("Resource_r87sg"), SubResource("Resource_wgm46"), SubResource("Resource_yjqux"), SubResource("Resource_u5lht"), SubResource("Resource_mepiw"), SubResource("Resource_xxeyd")])
 news_ticker = NodePath("../../../../sidebar/News/VBoxContainer/ScrollContainer/VBoxContainer")
 
 [node name="Label" type="Label" parent="HSplitContainer/main content/internet/torrent browser/VBoxContainer"]
