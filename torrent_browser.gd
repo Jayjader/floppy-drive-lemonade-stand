@@ -1,8 +1,10 @@
 extends VBoxContainer
-
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 signal torrent_enqueued(torrent: TorrentRs)
 
 @export var torrents: Array[TorrentRs] = []
+
+@onready var to_insert := torrents.slice(0)
 
 @onready var tree_view: Tree = $Tree
 
@@ -76,9 +78,6 @@ func _ready():
 	tools = _prepare_category(software, TorrentRs.TOOL)
 	games = _prepare_category(software, TorrentRs.GAME)
 	other_soft = _prepare_category(other_soft, "Others")
-	
-	for t in torrents:
-		_insert_torrent(t)
 
 var selected: TorrentRs
 func __on_tree_item_selected():
@@ -88,3 +87,20 @@ func __on_tree_item_selected():
 func __on_add_to_queue_pressed():
 	torrent_enqueued.emit(selected)
 	tree_view.deselect_all()
+
+func _is_before(torrent, day, month) -> bool:
+	if torrent.creation_month == month:
+		return torrent.creation_day < day
+	else:
+		# to compare month indices, use (idx - 8) % 12 == (idx + 4) % 12	
+		# -8 because we want september (9th month, so index 8 counting from 0) to be first
+		# %12 to wrap around the indices for "earlier" months in the year to be "after" december
+		var month_compare_index = (MONTHS.find(month) + 4) % 12
+		var creation_compare_index = (MONTHS.find(torrent.creation_month) + 4) % 12
+		return creation_compare_index < month_compare_index
+
+func __on_today_date_changed(day, month):
+	for torrent in to_insert:
+		if _is_before(torrent, day, month):
+			_insert_torrent(torrent)
+			to_insert.erase(torrent)

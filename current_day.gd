@@ -1,5 +1,6 @@
 extends Label
 
+signal date_changed(day: int, month: String)
 signal rent_needed
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -37,6 +38,7 @@ func __on_sleeping_state_exited():
 	if day > 30:
 		day -= 30
 		month = MONTHS[(MONTHS.find(month) + 1) % 12]
+	date_changed.emit(day, month)
 
 
 func __on_rent_payment_attempted(success):

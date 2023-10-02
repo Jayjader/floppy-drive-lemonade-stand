@@ -317,10 +317,12 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="LineEdit" type="LineEdit" parent="HSplitContainer/main content/internet/torrent browser/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Button" type="Button" parent="HSplitContainer/main content/internet/torrent browser/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 icon = ExtResource("2_1m7md")
 
@@ -560,6 +562,7 @@ funds_stock = NodePath("../../../HSplitContainer/main content/floppies and files
 [connection signal="nothing_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" method="deselect_all"]
 [connection signal="nothing_selected" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/Tree" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" method="set_disabled" binds= [true]]
 [connection signal="pressed" from="HSplitContainer/main content/internet/torrent browser/VBoxContainer/enqueue torrent" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_add_to_queue_pressed"]
+[connection signal="date_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/internet/torrent browser/VBoxContainer" method="__on_today_date_changed"]
 [connection signal="rent_needed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/today date" to="HSplitContainer/main content/floppies and files/stock/VBoxContainer/HBoxContainer/funds count" method="__on_today_date_rent_needed"]
 [connection signal="time_changed" from="HSplitContainer/sidebar/Calendar/VBoxContainer/time of day" to="HSplitContainer/sidebar/Calendar/VBoxContainer/advance game" method="__on_time_of_day_changed"]
 [connection signal="choice_made" from="Brick and Mortar Computing Store/VBoxContainer/buttons/purchase volume choice" to="Brick and Mortar Computing Store/VBoxContainer/buttons/action buttons/buy chosen volume" method="__on_purchase_volume_choice_made"]
